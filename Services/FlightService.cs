@@ -86,16 +86,17 @@ namespace AmadeusIntegration.Services
         }
 
 
-        public  async Task<FlightPriceResponse> GetFlightPrice_Async(FlightPriceRequest request,List<EInclude> include=null,bool forceClass=false)
+        public  async Task<FlightPriceResponse> GetFlightPrice_Async(FlightPriceRequest request, List<EInclude> include = null, bool forceClass = false)
         {
+        
             var endpoint = $"{_client.BaseUrl}/v1/shopping/flight-offers/pricing";
             var client = _client.CreateClient(endpoint);
             var restRequest = _client.CreateRequest(RestSharp.Method.Post);
 
-            if (include!=null)
-               restRequest.AddParameter("include", string.Join(",", include.Select(i => i.ToString().Replace('_','-'))));
+            if (include != null)
+                restRequest.AddParameter("include", string.Join(",", include.Select(i => i.ToString().Replace('_', '-'))));
             restRequest.AddJsonBody(request);
-            restRequest.AddHeader("X-HTTP-Method-Override", "GET");
+            if(forceClass)
             restRequest.AddParameter("forceClass", forceClass.ToString());
             var resp = await client.ExecuteAsync(restRequest);
             if (!resp.IsSuccessful) throw new Exception($"Price API error: {resp.Content}");

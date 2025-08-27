@@ -12,7 +12,6 @@ public static class JsonConfig
         Converters = new List<JsonConverter>
         {
             new StringEnumConverter() ,
-          
 
             new IsoDateTimeConverter { DateTimeFormat ="yyyy-MM-ddTHH:mm:ss" } 
         }
